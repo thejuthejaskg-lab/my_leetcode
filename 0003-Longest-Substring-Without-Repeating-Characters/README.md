@@ -43,8 +43,8 @@ Notice that the answer must be a substring, "pwke" is a subsequence and not a su
 ## Solution
 
 - **Language**: C++
-- **Runtime**: 0 ms
-- **Memory**: 7.7 MB
+- **Runtime**: 10 ms
+- **Memory**: 19 MB
 
 ---
 
