@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        // With one row (or more rows than characters) nothing changes
+        if (numRows == 1 || numRows >= (int)s.size()) return s;
+
+        vector<string> rows(numRows);
+        int row = 0;
+        int dir = 1;  // +1 = moving down, -1 = moving up
+
+        for (char c : s) {
+            rows[row] += c;
+
+            // Bounce at the top and bottom rows
+            if (row == 0) dir = 1;
+            else if (row == numRows - 1) dir = -1;
+
+            row += dir;
+        }
+
+        string result;
+        for (const string& r : rows) result += r;
+        return result;
+    }
+};
