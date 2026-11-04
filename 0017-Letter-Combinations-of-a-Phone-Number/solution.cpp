@@ -1,25 +1,21 @@
 class Solution {
 public:
-    bool isValid(string s) {
-        stack<char> brackets;
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode dummy(0);
+        ListNode* tail = &dummy;
 
-        for (char c : s) {
-            if (c == '(' || c == '[' || c == '{') {
-                brackets.push(c);
+        while (list1 != nullptr && list2 != nullptr) {
+            if (list1->val <= list2->val) {
+                tail->next = list1;
+                list1 = list1->next;
             } else {
-                if (brackets.empty()) return false;
-
-                char top = brackets.top();
-                brackets.pop();
-
-                if ((c == ')' && top != '(') ||
-                    (c == ']' && top != '[') ||
-                    (c == '}' && top != '{')) {
-                    return false;
-                }
+                tail->next = list2;
+                list2 = list2->next;
             }
+            tail = tail->next;
         }
 
-        return brackets.empty();
+        tail->next = (list1 != nullptr) ? list1 : list2;
+        return dummy.next;
     }
 };
