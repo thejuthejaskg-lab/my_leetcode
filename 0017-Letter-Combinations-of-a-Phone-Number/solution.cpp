@@ -1,21 +1,29 @@
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode dummy(0);
-        ListNode* tail = &dummy;
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        string current;
 
-        while (list1 != nullptr && list2 != nullptr) {
-            if (list1->val <= list2->val) {
-                tail->next = list1;
-                list1 = list1->next;
-            } else {
-                tail->next = list2;
-                list2 = list2->next;
+        function<void(int, int)> backtrack = [&](int open, int close) {
+            if (current.size() == 2 * n) {
+                result.push_back(current);
+                return;
             }
-            tail = tail->next;
-        }
 
-        tail->next = (list1 != nullptr) ? list1 : list2;
-        return dummy.next;
+            if (open < n) {
+                current.push_back('(');
+                backtrack(open + 1, close);
+                current.pop_back();
+            }
+
+            if (close < open) {
+                current.push_back(')');
+                backtrack(open, close + 1);
+                current.pop_back();
+            }
+        };
+
+        backtrack(0, 0);
+        return result;
     }
 };
