@@ -1,29 +1,33 @@
 class Solution {
 public:
-    vector<string> generateParenthesis(int n) {
-        vector<string> result;
-        string current;
-
-        function<void(int, int)> backtrack = [&](int open, int close) {
-            if (current.size() == 2 * n) {
-                result.push_back(current);
-                return;
-            }
-
-            if (open < n) {
-                current.push_back('(');
-                backtrack(open + 1, close);
-                current.pop_back();
-            }
-
-            if (close < open) {
-                current.push_back(')');
-                backtrack(open, close + 1);
-                current.pop_back();
-            }
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        auto compare = [](ListNode* a, ListNode* b) {
+            return a->val > b->val; // min heap
         };
 
-        backtrack(0, 0);
-        return result;
+        priority_queue<ListNode*, vector<ListNode*>, decltype(compare)> minHeap(compare);
+
+        for (ListNode* node : lists) {
+            if (node != nullptr) {
+                minHeap.push(node);
+            }
+        }
+
+        ListNode dummy(0);
+        ListNode* tail = &dummy;
+
+        while (!minHeap.empty()) {
+            ListNode* smallest = minHeap.top();
+            minHeap.pop();
+
+            tail->next = smallest;
+            tail = tail->next;
+
+            if (smallest->next != nullptr) {
+                minHeap.push(smallest->next);
+            }
+        }
+
+        return dummy.next;
     }
 };
