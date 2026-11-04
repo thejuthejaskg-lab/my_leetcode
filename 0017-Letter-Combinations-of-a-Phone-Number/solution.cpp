@@ -1,20 +1,25 @@
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode dummy(0, head);
-        ListNode* slow = &dummy;
-        ListNode* fast = &dummy;
+    bool isValid(string s) {
+        stack<char> brackets;
 
-        for (int i = 0; i <= n; ++i) {
-            fast = fast->next;
+        for (char c : s) {
+            if (c == '(' || c == '[' || c == '{') {
+                brackets.push(c);
+            } else {
+                if (brackets.empty()) return false;
+
+                char top = brackets.top();
+                brackets.pop();
+
+                if ((c == ')' && top != '(') ||
+                    (c == ']' && top != '[') ||
+                    (c == '}' && top != '{')) {
+                    return false;
+                }
+            }
         }
 
-        while (fast != nullptr) {
-            slow = slow->next;
-            fast = fast->next;
-        }
-
-        slow->next = slow->next->next;
-        return dummy.next;
+        return brackets.empty();
     }
 };
